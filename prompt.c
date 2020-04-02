@@ -4,10 +4,10 @@
 int main()
 {
     char *buffer;
-    size_t bufsize = 32;
+    size_t bufsize = 1;
 	int characters;
 
-    buffer = (char *)malloc(bufsize * sizeof(char));
+     buffer = (char *)malloc(bufsize * sizeof(char));
     if( buffer == NULL)
     {
         perror("Unable to allocate buffer");
@@ -19,6 +19,6 @@ int main()
 	if (characters < 0)
 		return (-1);
     printf("%s",buffer);
-
+    free(buffer);
     return(0);
 }
