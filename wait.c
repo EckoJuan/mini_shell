@@ -26,8 +26,8 @@ int main(void)
     }
     else
     {
-        wait(&status);
         printf("Oh, it's all better now\n");
+        wait(&status);
     }
     return (0);
 }
