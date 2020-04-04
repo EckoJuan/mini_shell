@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 /**
  * main - fork & wait example
@@ -10,14 +11,38 @@
 int main(void)
 {
 	char *line = NULL;
-	/* char **argin = malloc(10 * sizeof(char*));*/
-	char *argin[];
+	char **argin;
 	size_t len = 0;
 	ssize_t read;
 	pid_t child_pid;
-	int status; 
+	int status, i, k, j;
 
-	
+
+	argin = malloc(2 * sizeof(char *));
+
+	if (argin == NULL)
+		return (1);
+
+	for (i = 0; i < 2; i++)
+	{
+		argin[i] = malloc(10 * sizeof(char));
+		if (argin[i] == NULL)
+		{
+			for (k = 0; k < i; k++)
+			{
+				free(argin[k]);
+			}
+			free(argin);
+			return (1);
+		}
+
+		for (j = 0; j < 10; j++)
+		{
+			argin[i][j] = 0;
+		}
+	}
+
+
 
 	printf("#cisfun$ ");
 	while (1)
@@ -31,13 +56,17 @@ int main(void)
 		printf("%s", line);
 		printf("#cisfun$ ");
 
-		*(*(argin)) = *line;
-		*(*(argin + 1)) = '\0';
+
+		argin[0][0] = strdup(*line);
+		argin[0][1] = strdup(NULL);
+
+
+
 
 		if ((child_pid = fork()) == 0)
 		{
 			/* Child */
-			if (execve(line, argin, NULL) == -1)
+			if (execve(argin[0], argin, NULL) == -1)
 			{
 				perror("Error:");
 			}
