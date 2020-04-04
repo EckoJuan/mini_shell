@@ -8,41 +8,14 @@
  *
  * Return: Always 0.
  */
-int main(void)
+int main(int ac, char *av[], char *env[])
 {
 	char *line = NULL;
-	char **argin;
+	char *token = NULL, *argv[32];
 	size_t len = 0;
 	ssize_t read;
 	pid_t child_pid;
-	int status, i, k, j;
-
-
-	argin = malloc(2 * sizeof(char *));
-
-	if (argin == NULL)
-		return (1);
-
-	for (i = 0; i < 2; i++)
-	{
-		argin[i] = malloc(10 * sizeof(char));
-		if (argin[i] == NULL)
-		{
-			for (k = 0; k < i; k++)
-			{
-				free(argin[k]);
-			}
-			free(argin);
-			return (1);
-		}
-
-		for (j = 0; j < 10; j++)
-		{
-			argin[i][j] = 0;
-		}
-	}
-
-
+	int status, i;
 
 	
 	while (1)
@@ -54,18 +27,21 @@ int main(void)
 			perror("Unable to allocate buffer");
 			return (EXIT_FAILURE);
 		}
-		printf("%s", line);
-
-		argin[0][0] = strdup(*line);
-		argin[0][1] = strdup(NULL);
 
 
+		token = strtok(line, " \t\n\r");
+			for (i = 0; i < 32 && token != NULL; i++)
+			{
+				argv[i] = token;
+				token = strtok(NULL, " \t\n\r");
+			}
+			argv[i + 1] = NULL;
 
 
 		if ((child_pid = fork()) == 0)
 		{
 			/* Child */
-			if (execve(argin[0], argin, NULL) == -1)
+			if (execve(argv[0], argv, env) == -1)
 			{
 				perror("Error:");
 			}
@@ -78,7 +54,7 @@ int main(void)
 	}
 
 
-	free(argin);
+	free(argv);
 	free(line);
 	exit(EXIT_SUCCESS);
 }
