@@ -10,11 +10,14 @@
 int main(void)
 {
 	char *line = NULL;
-    char **argin = malloc(10 * sizeof(char*));
+	/* char **argin = malloc(10 * sizeof(char*));*/
+	char *argin[];
 	size_t len = 0;
 	ssize_t read;
 	pid_t child_pid;
 	int status; 
+
+	
 
 	printf("#cisfun$ ");
 	while (1)
@@ -27,24 +30,27 @@ int main(void)
 		}
 		printf("%s", line);
 		printf("#cisfun$ ");
-	}
-    *(*(argin)) = *line;
-    *(*(argin + 1)) = '\0';
-	if ((child_pid = fork()) == 0)
-	{
-		/* Child */
-		if (execve(line, argin, NULL) == -1)
+
+		*(*(argin)) = *line;
+		*(*(argin + 1)) = '\0';
+
+		if ((child_pid = fork()) == 0)
 		{
-			perror("Error:");
-		}
+			/* Child */
+			if (execve(line, argin, NULL) == -1)
+			{
+				perror("Error:");
+			}
 
-	} else
-	{
-		/* Parennt */
-		wait(&status);
+		} else
+		{
+			/* Parennt */
+			wait(&status);
+		}
 	}
 
-    free(argin);
+
+	free(argin);
 	free(line);
 	exit(EXIT_SUCCESS);
 }
