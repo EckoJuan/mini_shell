@@ -15,9 +15,9 @@ int main(int ac, char *av[], char *env[])
 	size_t len = 0;
 	ssize_t read;
 	pid_t child_pid;
-	int status, i;
-
-	
+	int status, i = 0;
+ 
+	/* Crear una función que retorne un doble puntero a argv*/
 	while (1)
 	{
 		printf("#cisfun$ ");
@@ -28,32 +28,55 @@ int main(int ac, char *av[], char *env[])
 			return (EXIT_FAILURE);
 		}
 
+		if (*line != '\n')
+		{
 
-		token = strtok(line, " \t\n\r");
+			token = strtok(line, " \t\n\r");
 			for (i = 0; i < 32 && token != NULL; i++)
 			{
 				argv[i] = token;
 				token = strtok(NULL, " \t\n\r");
 			}
-			argv[i + 1] = NULL;
+			argv[i] = NULL;
 
 
-		if ((child_pid = fork()) == 0)
-		{
-			/* Child */
-			if (execve(argv[0], argv, env) == -1)
+			i = 0;
+			while (argv[i])
 			{
-				perror("Error:");
+				printf("argv[%d] -> %s\n", i, argv[i]);
+				i++;
 			}
 
-		} else
-		{
-			/* Parennt */
-			wait(&status);
+			if ((child_pid = fork()) == 0)
+			{
+				/* Child */
+				if (execve(argv[0], argv, env) == -1)
+				{
+					perror("->Error:");/
+				}
+			}
+			else
+			{
+				/* Parennt */
+				wait(&status);
+			}
+
+			i = 0;
+
+			while (i < 32)
+			{
+				argv[i] = 0;
+				i++;
+			}
 		}
 	}
 
-
+	i = 0;
+	while (i < 32)
+	{
+		free(argv[i]);
+		i++;
+	}
 	free(argv);
 	free(line);
 	exit(EXIT_SUCCESS);
