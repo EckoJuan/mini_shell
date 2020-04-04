@@ -44,9 +44,10 @@ int main(void)
 
 
 
-	printf("#cisfun$ ");
+	
 	while (1)
 	{
+		printf("#cisfun$ ");
 		read = getline(&line, &len, stdin);
 		if (read < 0)
 		{
@@ -54,8 +55,6 @@ int main(void)
 			return (EXIT_FAILURE);
 		}
 		printf("%s", line);
-		printf("#cisfun$ ");
-
 
 		argin[0][0] = strdup(*line);
 		argin[0][1] = strdup(NULL);
