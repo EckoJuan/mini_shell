@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 /**
- * main - fork & wait example
+ * main - fork & wait   aaaample
  *
  * Return: Always 0.
  */
