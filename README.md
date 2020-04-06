@@ -6,7 +6,7 @@
 ![CONTRIBUTORS](https://img.shields.io/github/contributors/EckoJuan/mini_shell)
 
 ---
-(![https://raw.githubusercontent.com/computingfoundation/gnu-linux-shell-scripting/images/logo.png](https://raw.githubusercontent.com/computingfoundation/gnu-linux-shell-scripting/images/logo.png)
+![https://github.com/EckoJuan/mini_shell/blob/master/images/logo.png](https://github.com/EckoJuan/mini_shell/blob/master/images/logo.png)
 
 ---
 
