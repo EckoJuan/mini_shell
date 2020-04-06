@@ -2,7 +2,13 @@
 
 ---
 
-![README](https://img.shields.io/badge/README-OK-green.svg?colorB=00C106) ![Shell](https://img.shields.io/static/v1?label=Shell&message=Basic&color=blue) ![PRUEBA](https://img.shields.io/github/repo-size/EckoJuan/mini_shell)    ![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg) ![LAST_COMMIT](https://img.shields.io/github/last-commit/EckoJuan/mini_shell) ![CONTRIBUTORS](https://img.shields.io/github/contributors/EckoJuan/mini_shell) ![activity](https://img.shields.io/github/commit-activity/m/EckoJuan/mini_shell)
+![README](https://img.shields.io/badge/README-OK-green.svg?colorB=00C106) 
+![Shell](https://img.shields.io/static/v1?label=Shell&message=Basic&color=blue) 
+![PRUEBA](https://img.shields.io/github/repo-size/EckoJuan/mini_shell) 
+![made-with-Markdown](https://img.shields.io/badge/Made%20with-Markdown-1f425f.svg) 
+![LAST_COMMIT](https://img.shields.io/github/last-commit/EckoJuan/mini_shell) 
+![CONTRIBUTORS](https://img.shields.io/github/contributors/EckoJuan/mini_shell)  
+![activity](https://img.shields.io/github/commit-activity/m/EckoJuan/mini_shell)
 
 ---
 
