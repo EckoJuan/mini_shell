@@ -20,8 +20,6 @@ int main(int ac, char *av[], char *env[])
 	int i, status;
 	pid_t child_pid;
 
-	/*pid_t child_pid;*/
-	/*int status, i = 0;*/
 
 	while (1)
 	{
@@ -87,6 +85,7 @@ int main(int ac, char *av[], char *env[])
 		free(argv[i]);
 		i++;
 	}
+	
 	free(argv);
 	free(token);
 	free(line);
