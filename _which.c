@@ -14,15 +14,13 @@ int is_only_space(char *space)
 	{
 		if (space[i] != 32 && space != NULL)
 		{
-			printf("value 0 and space -> %c\n", space[i]);
-			return(0);
+			printf("Cantidad de espacios -> %d\n", i);
+			return(-1);
 		}
 		i++;
 	}
-
 	printf("value -1 \n");
-
-	return (-1);
+	return (0);
 }
 
 
