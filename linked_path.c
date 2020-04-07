@@ -25,6 +25,27 @@ char *_getenv(const char *name, char **current_env);
 size_t print_list(const path_node *h);
 
 /**
+ * *_strcpy - copies the string pointed to by src to the buffer pointed to dest
+ * @dest: char dest
+ * @src: char src
+ * Return: dest.
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+	char a;
+
+	for (i = 0; src[i] != '\0'; i++)
+	{
+		a = src[i];
+		dest[i] = a;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+
+/**
  * _strlen - returns the length of a string.
  * @s: pointer to String
  * Return: Nothing
@@ -146,32 +167,47 @@ size_t print_list(const path_node *h)
 
 void validate_file(const path_node *h, char *file)
 {
-	char *full_path_name;
-    struct stat st;
-    int found;
+	char *path_name = NULL;
+	struct stat st;
+	//int found;
 
 	while (h != NULL )
 	{
-		full_path_name = malloc(sizeof(char) * (h->len_path_name + _strlen(file) + 1));
-        if (full_path_name == NULL)
-            return;
-        /*_strcat("/",file);*/
-		full_path_name = _strcat(h->full_path_name, file);
-        /*printf("concat: %s\n",full_path_name);*/
-		
-        if (stat(full_path_name, &st) == 0)
+
+		path_name = malloc(sizeof(char) * (h->len_path_name + _strlen(file) + 2));
+		if (path_name == NULL)
+			return;
+
+		_strcpy(path_name, h->full_path_name);
+		_strcat(path_name, "/");
+		_strcat(path_name, file);
+		//printf("slash -> %s \n", path_name);
+		/*full_path_name = _strcat(h->full_path_name, slash);
+		printf("concat: %s\n",path_name);*/
+
+		if (stat(path_name, &st) == 0)
 		{
-			printf("Found: %s\n", full_path_name);
-			/*return (full_path_name);*/
+			printf("Found: %s\n", path_name);
+			/*if ((child_pid = fork()) == 0)
+			{
+				if (execve(path_name[0], path_name, NULL) == -1)
+				{
+					perror("->Error:");
+				}
+			}
+			else{
+				wait(&status);
+				}*/
+			/*return (path_name);*/
 		}
 		else
 		{
-            printf("Not Found\n");
-            free(full_path_name);
+			//printf("Not Found\n");
+			free(path_name);
 		}
-        h = h->next;
+		h = h->next;
 	}
-    /*return (NULL);*/
+	/*return (NULL);*/
 }
 
 
@@ -183,7 +219,7 @@ int main(int ac, char **av, char **env)
 	char *directories = _getenv("PATH", env);
 	add_path_to_list(&head, directories);
 	/*print_list(head);*/
-    printf("\n\n");
-    validate_file(head,av[1]);
+	printf("\n\n");
+	validate_file(head,av[1]);
 	return (0);
 }
