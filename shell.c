@@ -28,7 +28,7 @@ int main(int ac, char *av[], char *env[])
 			return (EXIT_FAILURE);
 		}
 
-		if (*line != '\n')
+		if (*line != '\n')  /* Valida enter \n*/
 		{
 
 			token = strtok(line, " \t\n\r");
@@ -46,13 +46,12 @@ int main(int ac, char *av[], char *env[])
 				printf("argv[%d] -> %s\n", i, argv[i]);
 				i++;
 			}
-
 			if ((child_pid = fork()) == 0)
 			{
 				/* Child */
 				if (execve(argv[0], argv, env) == -1)
 				{
-					perror("->Error:");/
+					perror("->Error:");
 				}
 			}
 			else

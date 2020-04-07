@@ -41,13 +41,7 @@ int main(int ac, char *av[], char *env[])
 			}
 			argv[i] = NULL;
 
-			i = 0;
-			while (argv[i])
-			{
-				printf("argv[%d] -> %s\n", i, argv[i]);
-				i++;
-			}
-
+		
 			if (stat(argv[0], &st) == 0)
 			{
 				printf(" FOUND\n");

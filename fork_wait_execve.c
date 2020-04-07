@@ -23,10 +23,10 @@ int main(void)
         {
             /* Child */
             printf("Before execve\n");
-            if (execve(argv[0], argv, NULL) == -1)
+            /*if (execve(argv[0], argv, NULL) == -1)
             {
                 perror("Error:");
-            }
+            }*/
             printf("In child process - pid = %d\n", getpid());
             sleep(1);
             exit(0);
