@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include "h.h"
 
 /*int is_only_space(char *space)
 {
@@ -33,33 +26,26 @@
  */
 int main(int ac, char *av[], char *env[])
 {
-	char *line = NULL;
-	char *token = NULL, *argv[32];
+	char *line = NULL, *token = NULL, *argv[32], *tmp = NULL;
 	size_t len = 0;
 	ssize_t read;
 	struct stat st;
-	int i, status;
+	int i, status, interactive = 1, cnt_lines = 0;
 	pid_t child_pid;
-	int interactive = 1;
-	int cnt_lines = 0;
-
 
 	while (1)
 	{
-		isatty(STDIN_FILENO) == 0 ? interactive = 0 : interactive; //
-		interactive == 1 ? write(STDIN_FILENO, "#cisfun$ ", 9) : interactive;//
+		isatty(STDIN_FILENO) == 0 ? interactive = 0 : interactive;
+		interactive == 1 ? write(STDIN_FILENO, "#cisfun$ ", 9) : interactive;
 		read = getline(&line, &len, stdin);
-
-		if (read < 0)
+		if (read == -1)
 		{
 			interactive == 1 ? write(STDIN_FILENO, "\n", 1) : read;
 			free(line);
 			return (0);
 		}
-
-		if (*line != '\n') /*&& is_only_space(line) != -1)*/
+		if (*line != '\n')
 		{
-
 			token = strtok(line, " \t\n\r");
 			for (i = 0; i < 32 && token != NULL; i++)
 			{
@@ -67,49 +53,27 @@ int main(int ac, char *av[], char *env[])
 				token = strtok(NULL, " \t\n\r");
 			}
 			argv[i] = NULL;
-
-
-			if (stat(argv[0], &st) == 0)
+			tmp = linked_path(argv[0], env);
+			if (stat(tmp, &st) == 0)
 			{
-				/*printf(" FOUND\n");*/
 				if ((child_pid = fork()) == 0)
 				{
-					if (execve(argv[0], argv, env) == -1)
+					if (execve(tmp, argv, env) == -1)
 					{
 						perror("->Error:");
+						exit(127);
 					}
 				}
 				else
-				{
-
 					wait(&status);
-				}
 			}
-			else
-			{
-				printf(" NOT FOUND\n");
-			}
-
-			i = 0;
-
-			while (i < 32)
-			{
+			for (i = 0; i < 32; i++)
 				argv[i] = 0;
-				i++;
-			}
 		}
-
 		cnt_lines++;
-
 	}
-
-	i = 0;
-	while (i < 32)
-	{
+	for (i = 0; i < 32; i++)
 		free(argv[i]);
-		i++;
-	}
-
 	/*free(argv);
 	free(token);
 	free(line);*/

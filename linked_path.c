@@ -1,28 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-/**
- * struct path_s - singly linked list
- * @str: string - (malloc'ed string)
- * @len: length of the string
- * @next: points to the next node
- *
- * Description: singly linked list node structure
- * for Holberton project
- */
-typedef struct path_s
-{
-	char *full_path_name;
-	unsigned int len_path_name;
-	struct path_s *next;
-} path_node;
-
-path_node *add_node_end(path_node **head, const char *str);
-int _strlen(const char *s);
-void add_path_to_list(path_node **head, char *current_path);
-char *_getenv(const char *name, char **current_env);
-size_t print_list(const path_node *h);
+#include "h.h"
 
 /**
  * *_strcpy - copies the string pointed to by src to the buffer pointed to dest
@@ -165,11 +141,10 @@ size_t print_list(const path_node *h)
 	return (count);
 }
 
-void validate_file(const path_node *h, char *file)
+char *validate_file(const path_node *h, char *file)
 {
 	char *path_name = NULL;
 	struct stat st;
-	//int found;
 
 	while (h != NULL )
 	{
@@ -181,45 +156,33 @@ void validate_file(const path_node *h, char *file)
 		_strcpy(path_name, h->full_path_name);
 		_strcat(path_name, "/");
 		_strcat(path_name, file);
-		//printf("slash -> %s \n", path_name);
-		/*full_path_name = _strcat(h->full_path_name, slash);
-		printf("concat: %s\n",path_name);*/
 
 		if (stat(path_name, &st) == 0)
 		{
-			printf("Found: %s\n", path_name);
-			/*if ((child_pid = fork()) == 0)
-			{
-				if (execve(path_name[0], path_name, NULL) == -1)
-				{
-					perror("->Error:");
-				}
-			}
-			else{
-				wait(&status);
-				}*/
-			/*return (path_name);*/
+			return (path_name);
 		}
 		else
 		{
-			//printf("Not Found\n");
 			free(path_name);
 		}
 		h = h->next;
 	}
-	/*return (NULL);*/
+	return (NULL);
 }
 
 
-int main(int ac, char **av, char **env)
+char *linked_path(char *av, char **env)
 {
-	path_node *head;
-	head = NULL;
+	path_node *head = NULL;
+	char *tmp = NULL;
 
 	char *directories = _getenv("PATH", env);
 	add_path_to_list(&head, directories);
 	/*print_list(head);*/
 	printf("\n\n");
-	validate_file(head,av[1]);
-	return (0);
+	tmp = validate_file(head, av);
+	if (tmp != NULL)
+		return (tmp);
+	else
+		return (av);
 }
