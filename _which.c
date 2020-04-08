@@ -2,11 +2,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
-int is_only_space(char *space)
+/*int is_only_space(char *space)
 {
 	int i = 0;
 
@@ -21,7 +22,7 @@ int is_only_space(char *space)
 	}
 	printf("value -1 \n");
 	return (0);
-}
+}*/
 
 
 
@@ -33,25 +34,30 @@ int is_only_space(char *space)
 int main(int ac, char *av[], char *env[])
 {
 	char *line = NULL;
-	char *token = NULL, *argv[2];
+	char *token = NULL, *argv[32];
 	size_t len = 0;
 	ssize_t read;
 	struct stat st;
 	int i, status;
 	pid_t child_pid;
+	int interactive = 1;
+	int cnt_lines = 0;
 
 
 	while (1)
 	{
-		printf("#cisfun$ ");
+		isatty(STDIN_FILENO) == 0 ? interactive = 0 : interactive; //
+		interactive == 1 ? write(STDIN_FILENO, "#cisfun$ ", 9) : interactive;//
 		read = getline(&line, &len, stdin);
+
 		if (read < 0)
 		{
-			perror("Unable to allocate buffer");
-			return (EXIT_FAILURE);
+			interactive == 1 ? write(STDIN_FILENO, "\n", 1) : read;
+			free(line);
+			return (0);
 		}
 
-		if (*line != '\n' && is_only_space(line) != -1)
+		if (*line != '\n') /*&& is_only_space(line) != -1)*/
 		{
 
 			token = strtok(line, " \t\n\r");
@@ -65,7 +71,7 @@ int main(int ac, char *av[], char *env[])
 
 			if (stat(argv[0], &st) == 0)
 			{
-				printf(" FOUND\n");
+				/*printf(" FOUND\n");*/
 				if ((child_pid = fork()) == 0)
 				{
 					if (execve(argv[0], argv, env) == -1)
@@ -92,6 +98,9 @@ int main(int ac, char *av[], char *env[])
 				i++;
 			}
 		}
+
+		cnt_lines++;
+
 	}
 
 	i = 0;
@@ -101,8 +110,8 @@ int main(int ac, char *av[], char *env[])
 		i++;
 	}
 
-	free(argv);
+	/*free(argv);
 	free(token);
-	free(line);
+	free(line);*/
 	return (0);
 }
