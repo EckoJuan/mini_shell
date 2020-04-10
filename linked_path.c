@@ -63,6 +63,7 @@ char *_strcat(char *dest, char *src)
  * @head: head of the list
  * @str: String of the instance
  * Return: new list
+ * convert_path_to_list
  */
 path_node *add_node_end(path_node **head, const char *str)
 {
@@ -170,7 +171,7 @@ char *validate_file(const path_node *h, char *file)
 	return (NULL);
 }
 
-
+/*search_path*/
 char *linked_path(char *av, char **env)
 {
 	path_node *head = NULL;

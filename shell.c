@@ -16,7 +16,7 @@ int main(int ac, char *av[], char *env[])
 	ssize_t read;
 	pid_t child_pid;
 	int status, i = 0;
- 
+
 	/* Crear una función que retorne un doble puntero a argv*/
 	while (1)
 	{
